@@ -5,6 +5,7 @@ import SignUp from './pages/SignUp';
 import InstitutionInfo from './pages/InstitutionInfo';
 import GradingInfo from './pages/Gradinginfo';
 import Dashboard from './dashboard/Dashboard';
+// import ResultPage from './pages/ResultPage';  
 // import Analytics from './dashboard/Analytics';
 
 const App: React.FC = () => {
@@ -16,6 +17,7 @@ const App: React.FC = () => {
         <Route path="/institution-info" element={<InstitutionInfo />} />
         <Route path="/grading-info" element={<GradingInfo />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        {/* <Route path="/result" element={<ResultPage />} /> */}
         {/* <Route path="/analytics" element={<Analytics />} /> */}
       </Routes>
     </Router>

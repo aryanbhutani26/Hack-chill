@@ -34,7 +34,7 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="flex h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="flex h-screen bg-gradient-to-r from-blue-500 via-purple-400 to-pink-400">
       {/* Sidebar */}
       <motion.aside 
         initial={{ x: -100 }} 
@@ -66,7 +66,7 @@ export default function Dashboard() {
           <Button className="md:hidden" variant="ghost" onClick={() => setSidebarOpen(!sidebarOpen)}>
             <Menu className="w-6 h-6" />
           </Button>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{selectedFeature.name}</h1>
+          <h1 className="text-2xl font-bold text-white dark:text-white">{selectedFeature.name}</h1>
         </div>
 
         <motion.div

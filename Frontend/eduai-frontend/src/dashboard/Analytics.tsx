@@ -39,6 +39,8 @@ export default function Analytics() {
   }, []);
 
   return (
+    <div className="bg-gradient-to-r from-blue-500 via-purple-400 to-white">
+
     <div className="p-6 space-y-6">
       {/* Feature Highlights */}
       {!showGrading && (
@@ -114,6 +116,7 @@ export default function Analytics() {
       )}
 
       <Toaster position="top-right" richColors />
+    </div>
     </div>
   );
 }

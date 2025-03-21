@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
+import ResultPage from './ResultPage'; // Import ResultPage component
 
 const GradingInfo: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -14,7 +15,11 @@ const GradingInfo: React.FC = () => {
     teachingExperience: '',
   });
 
-  const navigate = useNavigate(); // Initialize useNavigate
+  const [showResults, setShowResults] = useState(false); // State to manage result page display
+  const [correctAnswers, setCorrectAnswers] = useState(0); // Example correct answers
+  const [incorrectAnswers, setIncorrectAnswers] = useState(0); // Example incorrect answers
+
+  const navigate = useNavigate();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -26,8 +31,14 @@ const GradingInfo: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Redirect to Dashboard page
     navigate('/dashboard');
+  };
+
+  const handleGradeAssignment = () => {
+    // Example grading logic
+    setCorrectAnswers(7); // Set correct answers
+    setIncorrectAnswers(3); // Set incorrect answers
+    setShowResults(true); // Show result page
   };
 
   return (
@@ -96,78 +107,82 @@ const GradingInfo: React.FC = () => {
               ))}
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="subject">Subject</Label>
-                  <Input
-                    id="subject"
-                    name="subject"
-                    type="text"
-                    required
-                    value={formData.subject}
-                    onChange={handleInputChange}
-                    className="mt-1"
-                  />
+            {!showResults ? (
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="subject">Subject</Label>
+                    <Input
+                      id="subject"
+                      name="subject"
+                      type="text"
+                      required
+                      value={formData.subject}
+                      onChange={handleInputChange}
+                      className="mt-1"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="gradingFormat">Preferred Grading Format</Label>
+                    <Select onValueChange={(value) => setFormData(prev => ({ ...prev, gradingFormat: value }))}>
+                      <SelectTrigger className="mt-1 w-full">
+                        <SelectValue placeholder="Select grading format" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="numerical">Numerical</SelectItem>
+                        <SelectItem value="letter-grades">Letter Grades</SelectItem>
+                        <SelectItem value="comments-based">Comments-based</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="role">Your Role in Institution</Label>
+                    <Select onValueChange={(value) => setFormData(prev => ({ ...prev, role: value }))}>
+                      <SelectTrigger className="mt-1 w-full">
+                        <SelectValue placeholder="Select your role" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="professor">Professor</SelectItem>
+                        <SelectItem value="admin">Admin</SelectItem>
+                        <SelectItem value="teaching-assistant">Teaching Assistant</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="departmentName">Department Name</Label>
+                    <Input
+                      id="departmentName"
+                      name="departmentName"
+                      type="text"
+                      value={formData.departmentName}
+                      onChange={handleInputChange}
+                      className="mt-1"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="teachingExperience">Years of Teaching Experience</Label>
+                    <Input
+                      id="teachingExperience"
+                      name="teachingExperience"
+                      type="number"
+                      value={formData.teachingExperience}
+                      onChange={handleInputChange}
+                      className="mt-1"
+                    />
+                  </div>
                 </div>
 
-                <div>
-                  <Label htmlFor="gradingFormat">Preferred Grading Format</Label>
-                  <Select onValueChange={(value) => setFormData(prev => ({ ...prev, gradingFormat: value }))}>
-                    <SelectTrigger className="mt-1 w-full">
-                      <SelectValue placeholder="Select grading format" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="numerical">Numerical</SelectItem>
-                      <SelectItem value="letter-grades">Letter Grades</SelectItem>
-                      <SelectItem value="comments-based">Comments-based</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Label htmlFor="role">Your Role in Institution</Label>
-                  <Select onValueChange={(value) => setFormData(prev => ({ ...prev, role: value }))}>
-                    <SelectTrigger className="mt-1 w-full">
-                      <SelectValue placeholder="Select your role" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="professor">Professor</SelectItem>
-                      <SelectItem value="admin">Admin</SelectItem>
-                      <SelectItem value="teaching-assistant">Teaching Assistant</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Label htmlFor="departmentName">Department Name</Label>
-                  <Input
-                    id="departmentName"
-                    name="departmentName"
-                    type="text"
-                    value={formData.departmentName}
-                    onChange={handleInputChange}
-                    className="mt-1"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="teachingExperience">Years of Teaching Experience</Label>
-                  <Input
-                    id="teachingExperience"
-                    name="teachingExperience"
-                    type="number"
-                    value={formData.teachingExperience}
-                    onChange={handleInputChange}
-                    className="mt-1"
-                  />
-                </div>
-              </div>
-
-              <Button type="submit" className="w-full bg-blue-600 text-white hover:bg-blue-700 !rounded-button">
-                Submit Grading Info
-              </Button>
-            </form>
+                <Button type="button" onClick={handleGradeAssignment} className="w-full bg-blue-600 text-white hover:bg-blue-700 !rounded-button">
+                  Grade Assignment
+                </Button>
+              </form>
+            ) : (
+              <ResultPage correct={correctAnswers} incorrect={incorrectAnswers} />
+            )}
           </div>
         </div>
       </div>
